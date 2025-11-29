@@ -1,0 +1,34 @@
+version: '3.9'
+
+services:
+  mongo:
+    image: mongo:7
+    container_name: vault-mongo
+    restart: unless-stopped
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - vault-net
+
+  app:
+    build: .
+    image: ushaukat3737/scd-vault:latest
+    container_name: vault-app
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - MONGODB_URI=${MONGODB_URI}
+      - NODE_ENV=production
+    depends_on:
+      - mongo
+    networks:
+      - vault-net
+
+volumes:
+  mongo-data:
+
+networks:
+  vault-net:
+    driver: bridge
+    name: vault-final-net
