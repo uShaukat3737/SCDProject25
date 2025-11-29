@@ -1,0 +1,5 @@
+node_modules/
+vault.json
+export.txt
+backups/
+.env.example
